@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block content %} 
+{% include "appheader.html" %}
+
+<div class="container py-3">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      {% if error %}
+      <div class="alert alert-danger">{{error}}</div>
+      {% endif %}
+      <a class="btn btn-outline-primary" href="{{url_for('showPromotionalColor',promotional_id=promotional_id, color=color)}}">Back</a>
+      <a class="btn btn-outline-primary" href="{{url_for('editPairings',promotional_id=promotional_id, color=color)}}">Edit Pairings</a>
+      <a class="btn btn-outline-primary" href="{{url_for('generatePairings',promotional_id=promotional_id, color=color)}}">Generate Pairings PDF</a>
+      <table class="table table-hover">
+          <tr>
+            <th>Student</th>
+            <th>Partner</th>
+          </tr>
+          {% if applications %} {% for application in applications %}
+          <tr>
+            <td>{{ application.fullName }} - {{ application.rankInfo }}</td>
+            <td>{{ application.partnerInfo() }}</td>
+          </tr>
+          {% endfor %} {% endif %}
+        </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "appheader.html" %}
+<!-- Trigger the modal with a button -->
+<div class="container py-3">
+    <div class = 'flash'>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Success!</strong> {{message}}
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Add Promotional</a>
+            
+
+        <div id="deleteModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" id="deleteModalContent">
+                </div>
+            </div>
+        </div>
+
+        <div id="editModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" id="editModalContent">
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form method="post" action="{{url_for('addPromotional')}}">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add Promotional</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Date</label>&nbsp;<input type="date" value="2011-09-29" class="form-control" name="promotionalDate"><br>
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="type" value="All Ages" checked>All Ages
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="type" value="Youth">Youth
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Promotional</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for promotional in promotionals %}
+                <tr>
+                    <td><a href="{{url_for('showPromotional', promotional_id=promotional.id)}}">{{promotional.date}} - {{promotional.type}}</a></td>
+                    <td><a href="#" onclick="openEditPromotionalModal({{promotional.id}})">Edit</a></td>
+                    <td><a href="#" onclick="openDeletePromotionalModal({{promotional.id}})">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
